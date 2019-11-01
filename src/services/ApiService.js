@@ -12,8 +12,8 @@ export function uploadFile(file) {
         });
 }
 
-export function getNextRecords(count) {
-    return axios.get("?size="+count, {
+export function getNextRecords(count, page) {
+    return axios.get("?size="+count+"&page="+page, {
         headers: {
             "Authorization": "Basic dGVzdF91c2VyOnRlc3RfcHc="
         }});

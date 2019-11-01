@@ -37,7 +37,7 @@ export class Record extends Component{
                 <Col sm='1'>
                     <Phone phone={record.phone} update={this.getNewValue} />
                 </Col>
-                <Col sm='2'><Email email={record.email} update={this.getNewValue} /></Col>
+                <Col sm='1'><Email email={record.email} update={this.getNewValue} /></Col>
             </Form.Row>
             <Row>
                 <Col sm='1'>

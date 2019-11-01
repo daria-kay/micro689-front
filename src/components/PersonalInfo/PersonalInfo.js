@@ -62,25 +62,6 @@ export class PersonalInfo extends Component {
                             'regex:^[0-9]{}-[0-9]{2}-[0-9]{2}$')}
                     </Col>
                 </Row>
-                <Row>
-                    <Col>
-
-                    </Col>
-                    <Col>
-
-                    </Col>
-                    <Col>
-
-                    </Col>
-                    <Col>
-
-                    </Col>
-                </Row>
-
-
-
-
-
             </Form>
         );
     }
