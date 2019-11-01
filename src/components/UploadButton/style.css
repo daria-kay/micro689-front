@@ -22,6 +22,14 @@
     background-color: #679af0;
 }
 
-.msg {
-    padding: 10px;
+#btn {
+    padding-right: 20px;
+}
+
+#msg {
+    margin-right: 15px;
+}
+
+.box {
+    display: inline-block;
 }

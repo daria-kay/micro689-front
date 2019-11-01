@@ -1,8 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:500&display=swap&subset=cyrillic');
-
 html, body {
   margin: 0;
-  position: relative;
-  min-height: 100%;
   min-width: 750px;
 }

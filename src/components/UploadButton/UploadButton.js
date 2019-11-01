@@ -1,7 +1,7 @@
 import React from "react";
 import {Component} from 'react'
 import "./style.css"
-import uploadFile from "../../services/FileUploader";
+import {uploadFile} from "../../services/ApiService";
 import {Alert} from "react-bootstrap";
 
 export class UploadButton extends Component{
