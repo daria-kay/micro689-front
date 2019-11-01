@@ -12,8 +12,8 @@ export default class RecordContainer extends Component {
         this.size = 10;
         this.state = {
             records: [],
-            message: "Записей нет..."
-        }
+            loadMore: false
+        };
     }
 
     componentDidMount() {
@@ -22,11 +22,14 @@ export default class RecordContainer extends Component {
 
     render() {
         return (
-            <div className='mb-3'>
-                {this.state.records.map(record =>
-                    <Record key={record.id} record={record} updateList={this.updateRecordsList}/>)
-                }
-                <Button variant='success' onClick={this.loadMoreRecords}>Загрузить еще</Button>
+            <div className='mb-5'>
+                <div className='mb-3'>
+                    {this.state.records.map(record =>
+                        <Record key={record.id} record={record} updateList={this.updateRecordsList}/>)
+                    }
+                </div>
+                {this.state.loadMore &&
+                <Button className='d-block ml-3' variant='success' onClick={this.loadMoreRecords}>Загрузить еще</Button>}
             </div>
         );
     }
@@ -39,7 +42,7 @@ export default class RecordContainer extends Component {
                         let newRecords = [];
                         newRecords = newRecords.concat(this.state.records);
                         newRecords = newRecords.concat(response.data);
-                        this.setState({records: newRecords})
+                        this.setState({records: newRecords, loadMore: true})
                     }
                 }
             );
@@ -55,7 +58,7 @@ export default class RecordContainer extends Component {
                         newRecords = newRecords.concat(this.state.records);
                         newRecords = newRecords.concat(response.data);
                         console.log(newRecords);
-                        this.setState({records: newRecords})
+                        this.setState({records: newRecords, loadMore: true})
                     }
                 }
             );

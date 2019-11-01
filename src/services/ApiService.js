@@ -34,3 +34,10 @@ export function deleteRecord(id) {
 
 }
 
+export function saveRecord(record) {
+    return axios.post("/save-record-task", record, {
+        headers: {
+            "Authorization": "Basic dGVzdF91c2VyOnRlc3RfcHc="
+        }});
+}
+

@@ -10,28 +10,20 @@ export class UploadButton extends Component{
         super(props);
         this.state = {
             isUpload: false,
-            message: "Просто тестовое сообщение",
             status: 'success'
         };
     }
 
     render() {
-        let msgOpacity = this.state.isUpload ? '100' : '0';
         return (
             <div id='upload-btn-container'>
-                    <div className='box' id='msg'>
-                        <Alert style={{opacity: msgOpacity}}
-                               variant={this.state.status}>
-                            {this.state.message}
-                        </Alert>
-                    </div>
                         <div className='box' id='btn'>
                             <input type="file"
                                    name="csv"
                                    id="file"
                                    className="input-file"
                                    onChange={this.uploader}/>
-                            <label htmlFor="file">Выбрать файл</label>
+                            <label htmlFor="file">Загрузить файл</label>
                         </div>
             </div>
         );
@@ -40,15 +32,8 @@ export class UploadButton extends Component{
     uploader = (event) => {
         uploadFile(event.target.files[0])
             .then(
-                response =>
-                    this.setState({
-                        isUpload: true,
-                        message: response.status === 201 ? "Файл успешно загружен" :
-                            "Что-то пошло не так...",
-                        status: response.status === 201 ? 'success' : 'danger'
-                    })
+
             );
-        setTimeout(() => this.setState({isUpload: false}), 2500);
     };
 }
 
