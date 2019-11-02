@@ -1,43 +1,76 @@
 import axios from 'axios';
 import {FILE_UPLOAD_URL as url} from "../constants";
+import { Base64 } from 'js-base64';
+
+let authHeader = "";
 
 export function uploadFile(file) {
     let formData = new FormData();
     formData.append("csv", file);
-    return axios.post(url,
+
+    return axios.post('black-list/upload-task',
         formData, {
             headers: {
                 'Content-Type':'multipart/form-data',
-                "Authorization": "Basic dGVzdF91c2VyOnRlc3RfcHc="}
+                "Authorization": authHeader}
         });
 }
 
 export function getNextRecords(count, page) {
-    return axios.get("?size="+count+"&page="+page, {
+    return axios.get("/black-list?size="+count+"&page="+page, {
         headers: {
-            "Authorization": "Basic dGVzdF91c2VyOnRlc3RfcHc="
+            "Authorization": authHeader
         }});
 }
 
 export function updateRecord(id, block, newValues) {
-    return axios.put("/"+block + "/"+id, newValues,{
+    return axios.put("/black-list/"+block + "/"+id, newValues,{
         headers: {
-            "Authorization": "Basic dGVzdF91c2VyOnRlc3RfcHc="
+            "Authorization": authHeader
         }});
 }
 
 export function deleteRecord(id) {
-    return axios.delete("/"+id,{
+    return axios.delete("/black-list/"+id,{
         headers: {
-            "Authorization": "Basic dGVzdF91c2VyOnRlc3RfcHc="
+            "Authorization": authHeader
         }});
 
 }
 
 export function saveRecord(record) {
-    return axios.post("/save-record-task", record, {
+    return axios.post("black-list/add-entry-task", record, {
         headers: {
-            "Authorization": "Basic dGVzdF91c2VyOnRlc3RfcHc="
+            "Authorization": authHeader
         }});
+}
+
+export function getPartners() {
+    return axios.get("/partner");
+}
+
+export function logup(request) {
+    return axios.post("/logup", request);
+}
+
+export function login(login, password) {
+    let auth = "Basic " + Base64.encode(login + ":"+password);
+    return axios.get("/login", {
+        headers: {
+            "Authorization": auth
+        }
+    }).then(
+        response => {
+            authHeader = auth;
+        }
+    )
+}
+
+export function isAuthenticate() {
+    return axios.get('/login', {
+        headers: {
+            "Authorization": authHeader
+        }
+    });
 }
 

@@ -39,7 +39,19 @@ export class Record extends Component{
                 </Col>
                 <Col sm='1'><Email email={record.email} update={this.getNewValue} /></Col>
             </Form.Row>
-
+                <Row>
+                    <Col sm='1'>
+                        <Button disabled={this.state.saveDis}
+                                variant='outline-success'
+                                className='d-inline m-3'
+                                onClick={this.saveChanges}>Сохранить</Button>
+                    </Col>
+                    <Col sm='1'>
+                        <Button variant='outline-danger'
+                                className='d-inline m-3'
+                                onClick={this.deleteRecord}>Удалить</Button>
+                    </Col>
+                </Row>
         </div>
 
         );
@@ -50,10 +62,12 @@ export class Record extends Component{
             updateRecord(this.props.record.id, block, this.newValues[block])
                 .then( response => {
                         this.setState({saveDis: true});
+                        this.props.updateList();
                     }
                 )
                 .finally( () =>
                     this.newValues[block] = {}
+
                 );
         }
     };
@@ -71,40 +85,4 @@ export class Record extends Component{
                 this.props.updateList();
             })
     };
-
-    renderButtons = (isNewRecord) => {
-        if(isNewRecord)
-            return (
-                <Row>
-                    <Button variant='outline-warning'
-                            onClick={this.saveNewRecord}
-                    >Сохранить</Button>
-                </Row>
-            );
-        else
-            return (
-                <Row>
-                    <Col sm='1'>
-                        <Button disabled={this.state.saveDis}
-                                variant='outline-success'
-                                className='d-inline m-3'
-                                onClick={this.saveChanges}>Сохранить</Button>
-                    </Col>
-                    <Col sm='1'>
-                        <Button variant='outline-danger'
-                                className='d-inline m-3'
-                                onClick={this.deleteRecord}>Удалить</Button>
-                    </Col>
-                </Row>
-            );
-    };
-
-    saveNewRecord = () => {
-        saveRecord(this.newValues)
-            .then(response => {
-                this.props.updateList();
-            })
-    }
-
-
 }

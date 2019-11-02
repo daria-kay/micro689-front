@@ -1,8 +1,6 @@
-import React from "react";
-import {Component} from 'react'
+import React, {Component} from "react";
 import "./style.css"
 import {uploadFile} from "../../services/ApiService";
-import {Alert} from "react-bootstrap";
 
 export class UploadButton extends Component{
 
@@ -30,10 +28,7 @@ export class UploadButton extends Component{
     }
 
     uploader = (event) => {
-        uploadFile(event.target.files[0])
-            .then(
-
-            );
+        uploadFile(event.target.files[0]);
     };
 }
 

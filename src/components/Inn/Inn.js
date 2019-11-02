@@ -9,7 +9,8 @@ export class Inn extends Component {
         this.validator = new SimpleReactValidator();
         let isActive = typeof (this.props.inn) !== "undefined";
         this.state = {
-            inn: isActive ? this.props.inn : ''
+            inn: isActive ? this.props.inn : '',
+            disabled: !isActive
         }
     }
 
@@ -17,7 +18,7 @@ export class Inn extends Component {
         return (
             <Form.Row className='p-3'>
                 <Form.Label className='text-center font-weight-bold'>ИНН</Form.Label>
-                <Form.Control  plaintext
+                <Form.Control  disabled={this.state.disabled} plaintext
                               defaultValue={this.state.inn}
                               onChange={(e) => this.validateAndUpdate('inn', e.target.value)}
                 />

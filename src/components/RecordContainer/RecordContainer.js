@@ -8,16 +8,12 @@ export default class RecordContainer extends Component {
 
     constructor(props){
         super(props);
-        this.pageCount = 0;
+        this.pageCount = 1;
         this.size = 10;
         this.state = {
             records: [],
             loadMore: false
         };
-    }
-
-    componentDidMount() {
-        this.loadMoreRecords();
     }
 
     render() {
@@ -28,7 +24,7 @@ export default class RecordContainer extends Component {
                         <Record key={record.id} record={record} updateList={this.updateRecordsList}/>)
                     }
                 </div>
-                {this.state.loadMore &&
+                {this.state.records.length !== 0 &&
                 <Button className='d-block ml-3' variant='success' onClick={this.loadMoreRecords}>Загрузить еще</Button>}
             </div>
         );
@@ -38,28 +34,21 @@ export default class RecordContainer extends Component {
         getNextRecords(this.size, this.pageCount)
             .then(
                 response => {
-                    if(response.status === 200){
                         let newRecords = [];
                         newRecords = newRecords.concat(this.state.records);
                         newRecords = newRecords.concat(response.data);
-                        this.setState({records: newRecords, loadMore: true})
-                    }
+                        this.setState({records: newRecords});
+                        this.pageCount += 1;
                 }
             );
-        this.pageCount += 1;
+
     };
 
     updateRecordsList = () => {
         getNextRecords(this.size*this.pageCount, 0)
             .then(
                 response => {
-                    if(response.status === 200){
-                        let newRecords = [];
-                        newRecords = newRecords.concat(this.state.records);
-                        newRecords = newRecords.concat(response.data);
-                        console.log(newRecords);
-                        this.setState({records: newRecords, loadMore: true})
-                    }
+                        this.setState({records: response.data})
                 }
             );
     }

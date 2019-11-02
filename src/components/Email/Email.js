@@ -9,7 +9,8 @@ export class Email extends Component {
         this.validator = new SimpleReactValidator();
         let isActive = typeof (this.props.email) !== "undefined";
         this.state = {
-            email : isActive ? this.props.email : ''
+            email : isActive ? this.props.email : '',
+            disabled: !isActive
         }
     }
 
@@ -17,7 +18,7 @@ export class Email extends Component {
         return (
             <Form.Row className='p-3'>
                 <Form.Label className='text-center font-weight-bold'>Почта</Form.Label>
-                <Form.Control plaintext
+                <Form.Control disabled={this.state.disabled} plaintext
                               defaultValue={this.state.email}
                               onChange={(e) => this.validateAndUpdate('email', e.target.value)}
                 />

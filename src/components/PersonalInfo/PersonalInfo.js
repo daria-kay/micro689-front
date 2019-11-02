@@ -15,51 +15,50 @@ export class PersonalInfo extends Component {
             firstName: isActive ? this.props.info.firstName : '',
             secondName: isActive ? this.props.info.secondName : '',
             birthDate: isActive ? this.props.info.birthDate : '',
+            disabled: !isActive
         }
     }
 
 
     render() {
-
-
         return (
             <Form className='p-3'>
                 <Row>
                     <Col sm='3'>
                         <Form.Label className='font-weight-bold'>Фамилия</Form.Label>
-                        <Form.Control plaintext
+                        <Form.Control disabled={this.state.disabled} plaintext
                                       defaultValue={this.state.surname}
                                       onChange={(e) => this.validateAndUpdate('surname', e.target.value)}
                         />
                         {this.validator.message('surname',
-                            this.state.surname, 'alpha|max:100')}
+                            this.state.surname, 'max:30')}
                     </Col>
                     <Col sm='3'>
                         <Form.Label className='font-weight-bold'>Имя</Form.Label>
-                        <Form.Control plaintext
+                        <Form.Control disabled={this.state.disabled} plaintext
                                       defaultValue={this.state.firstName}
                                       onChange={(e) => this.validateAndUpdate('firstName',  e.target.value)}
                         />
                         {this.validator.message('firstName',
-                            this.state.firstName, 'alpha|max:100')}
+                            this.state.firstName, 'max:15')}
                     </Col>
                     <Col sm='3'>
                         <Form.Label className='font-weight-bold'>Отчество</Form.Label>
-                        <Form.Control plaintext
+                        <Form.Control disabled={this.state.disabled} plaintext
                                       defaultValue={this.state.secondName}
                                       onChange={(e) => this.validateAndUpdate('secondName', e.target.value)}
                         />
                         {this.validator.message('secondName',
-                            this.state.secondName, 'alpha|max:100')}
+                            this.state.secondName, 'max:30')}
                     </Col>
                     <Col sm='3'>
                         <Form.Label className='font-weight-bold'>Дата рождения</Form.Label>
-                        <Form.Control plaintext
+                        <Form.Control disabled={this.state.disabled} plaintext
                                       defaultValue={this.state.birthDate}
                                       onChange={(e) => this.validateAndUpdate('birthDate', e.target.value)}
                         />
                         {this.validator.message('birthDate', this.state.birthDate,
-                            'regex:^[0-9]{}-[0-9]{2}-[0-9]{2}$')}
+                            'regex:^[0-9]{4}-[0-9]{2}-[0-9]{2}$')}
                     </Col>
                 </Row>
             </Form>

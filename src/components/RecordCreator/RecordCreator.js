@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import Modal from "react-bootstrap/Modal";
-import {Record} from "../Record/Record";
 import {Alert, Button} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -12,19 +11,11 @@ export class RecordCreator extends Component{
     constructor(props){
         super(props);
         this.validator = new SimpleReactValidator();
+        this.initializeEmptyRecord();
         this.state = {
             show: false,
             error: false,
-            errorMessage: '',
-            surname: '',
-            firstName: '',
-            secondName: '',
-            birthDate: '',
-            passportSeria: '',
-            passportNumber: '',
-            inn: '',
-            phone: '',
-            email: '',
+            errorMessage: ''
         }
     }
 
@@ -48,72 +39,70 @@ export class RecordCreator extends Component{
                     <Form.Row className='m-3'>
                         <Col>
                             <Form.Control placeholder='Фамилия'
-                                          onChange={(e) => this.setState({surname: e.target.value})}/>
+                                          onChange={(e) => this.record['surname'] = e.target.value}/>
                             {this.validator.message('surname',
-                                this.state.surname, 'alpha|max:100')}
+                                this.record.surname, 'max:30')}
                         </Col>
                         <Col>
                             <Form.Control placeholder='Имя'
-                                          onChange={(e) => this.setState({firstName: e.target.value})}
+                                          onChange={(e) => this.record['firstName'] = e.target.value}
                             />
                             {this.validator.message('firstName',
-                                this.state.firstName, 'alpha|max:100')}
+                                this.record.firstName, 'max:15')}
                         </Col>
                         <Col>
                             <Form.Control placeholder='Отчество'
-                                          onChange={(e) => this.setState({secondName: e.target.value})}
+                                          onChange={(e) => this.record['secondName'] = e.target.value}
                             />
                             {this.validator.message('secondName',
-                                this.state.secondName, 'alpha|max:100')}
+                                this.record.secondName, 'max:30')}
                         </Col>
                         <Col>
                             <Form.Control placeholder='Дата рождения'
-                                          onChange={(e) => this.setState({birthDate: e.target.value})}
+                                          onChange={(e) => this.record['birthDate'] = e.target.value}
                             />
-                            {this.validator.message('birthDate', this.state.birthDate,
-                                'regex:^[0-9]{}-[0-9]{2}-[0-9]{2}$')}
+                            {this.validator.message('birthDate', this.record.birthDate,
+                                'regex:^[0-9]{4}-[0-9]{2}-[0-9]{2}$')}
                         </Col>
                     </Form.Row>
                     <Form.Row className='m-3'>
                         <Col sm={3}>
                             <Form.Control placeholder='Серия пасспорта'
-                                          onChange={(e) => this.setState({passportSeria: e.target.value})}
+                                          onChange={(e)  => this.record['passportSeria'] = e.target.value}
                             />
-                            {this.validator.message('passportSeria', this.state.passportSeria,
+                            {this.validator.message('passportSeria', this.record.passportSeria,
                                 'numeric|size:4')}
                         </Col>
                         <Col sm={3}>
                             <Form.Control placeholder='Номер пасспорта'
-                                          onChange={(e) => this.setState({passportNumber: e.target.value})}
+                                          onChange={(e) => this.record['passportNumber'] = e.target.value}
                             />
-                            {this.validator.message('passportNumber', this.state.passportNumber,
+                            {this.validator.message('passportNumber', this.record.passportNumber,
                                 'numeric|size:6')}
                         </Col>
                     </Form.Row>
                     <Form.Row className='m-3'>
                         <Col>
                             <Form.Control placeholder='ИНН'
-                                          onChange={(e) => this.setState({inn: e.target.value})}
+                                          onChange={(e)  => this.record['inn'] = e.target.value}
                             />
-                            {this.validator.message('inn', this.state.inn,
+                            {this.validator.message('inn', this.record.inn,
                                 'numeric|size:10')}
                         </Col>
                     </Form.Row>
                     <Form.Row className='m-3'>
                         <Col>
                             <Form.Control placeholder='Телефон'
-                                          onChange={(e) => this.setState({phone: e.target.value})}
+                                          onChange={(e) => this.record['phone'] = e.target.value}
                             />
-                            {this.validator.message('phone', this.state.phone,
-                                'numeric|size:10')}
                         </Col>
                     </Form.Row>
                     <Form.Row className='m-3'>
                         <Col>
                             <Form.Control placeholder='Почта'
-                                          onChange={(e) => this.setState({email: e.target.value})}
+                                          onChange={(e) => this.record['email'] = e.target.value}
                             />
-                            {this.validator.message('email', this.state.email,
+                            {this.validator.message('email', this.record.email,
                                 'email')}
                         </Col>
                     </Form.Row>
@@ -128,37 +117,42 @@ export class RecordCreator extends Component{
 
     saveRecord = () => {
         this.setState({error: false});
+        let clearRecord = {};
+        for(let field in this.record){
+            if(this.record[field] !== null)
+                clearRecord[field] = this.record[field];
+        }
         if(this.validator.allValid()){
-            let record =  {
-                personalInfo: {
-                    surname: this.state.surname,
-                    firstName: this.state.firstName,
-                    secondName: this.state.secondName,
-                    birthDate: this.state.birthDate,
-                },
-                passportInfo: {
-                    passportSeria: this.state.passportSeria,
-                    passportNumber: this.state.passportNumber,
-                },
-                inn: this.state.inn,
-                phone: this.state.phone,
-                email: this.state.email,
-            };
-            saveRecord(record)
+            saveRecord(clearRecord)
                 .then(
                     response => {
-                        if(response.status === 201)
-                            this.setState({show: false});
-                        else {
-                            let msg = response.data.errorMessage;
-                            this.setState({error: true, errorMessage: msg})
-                        }
+                        this.initializeEmptyRecord();
+                        this.setState({show: false});
                     }
-                )
+                ).catch(
+                    reason => {
+                        let msg = reason.response.data.message;
+                        this.setState({error: true, errorMessage: msg, record: {}})
+                    }
+            )
         } else{
             let msg = 'Неправильно заполнены поля';
             this.setState({error: true, errorMessage: msg})
         }
     };
+
+    initializeEmptyRecord(){
+        this.record = {
+            surname: null,
+            firstName: null,
+            secondName: null,
+            birthDate: null,
+            passportSeria: null,
+            passportNumber: null,
+            inn: null,
+            phone: null,
+            email: null
+        };
+    }
 
 }
