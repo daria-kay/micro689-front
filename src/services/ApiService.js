@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {FILE_UPLOAD_URL as url} from "../constants";
 import { Base64 } from 'js-base64';
 
 let authHeader = "";

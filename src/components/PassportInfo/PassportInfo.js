@@ -13,17 +13,17 @@ export class PassportInfo extends Component {
         this.state = {
             seria: isActive ? this.props.info.passportSeria : '',
             number: isActive ? this.props.info.passportNumber : '',
-            disabled: !isActive
         }
     }
 
     render() {
+        let dis = typeof this.state.seria === 'undefined';
         return (
             <Form className='p-3'>
                 <Row>
                     <Col>
                         <Form.Label className='font-weight-bold'>Серия паспорта</Form.Label>
-                        <Form.Control disabled={this.state.disabled} plaintext
+                        <Form.Control disabled={dis} plaintext
                                       defaultValue={this.state.seria}
                                       onChange={(e) => this.validateAndUpdate('passportSeria', e.target.value)}
                         />
@@ -32,7 +32,7 @@ export class PassportInfo extends Component {
                     </Col>
                     <Col>
                         <Form.Label className='font-weight-bold'>Номер паспорта</Form.Label>
-                        <Form.Control disabled={this.state.disabled} plaintext
+                        <Form.Control disabled={dis} plaintext
                                       defaultValue={this.state.number}
                                       onChange={(e) => this.validateAndUpdate({'passportNumber': e.target.value})}
                         />

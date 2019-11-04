@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Button, Form} from "react-bootstrap";
 import './style.css'
-import {deleteRecord, saveRecord, updateRecord} from "../../services/ApiService";
+import {deleteRecord, updateRecord} from "../../services/ApiService";
 import {PersonalInfo} from "../PersonalInfo/PersonalInfo";
 import {PassportInfo} from "../PassportInfo/PassportInfo";
 import {Inn} from "../Inn/Inn";
@@ -73,9 +73,13 @@ export class Record extends Component{
     };
 
     getNewValue = (name, value, block) => {
-        let blockUpdates = {};
-        blockUpdates[name] = value;
-        this.newValues[block] = blockUpdates;
+        console.log(name);
+        console.log(value);
+        console.log(block);
+        if(typeof this.newValues[block] === 'undefined'){
+            this.newValues[block] = {};
+        }
+        this.newValues[block][name] = value;
         this.setState({saveDis: false})
     };
 

@@ -14,19 +14,19 @@ export class PersonalInfo extends Component {
             surname: isActive ? this.props.info.surname : '',
             firstName: isActive ? this.props.info.firstName : '',
             secondName: isActive ? this.props.info.secondName : '',
-            birthDate: isActive ? this.props.info.birthDate : '',
-            disabled: !isActive
+            birthDate: isActive ? this.props.info.birthDate : ''
         }
     }
 
 
     render() {
+        let dis = typeof this.state.surname === 'undefined';
         return (
             <Form className='p-3'>
                 <Row>
                     <Col sm='3'>
                         <Form.Label className='font-weight-bold'>Фамилия</Form.Label>
-                        <Form.Control disabled={this.state.disabled} plaintext
+                        <Form.Control disabled={dis} plaintext
                                       defaultValue={this.state.surname}
                                       onChange={(e) => this.validateAndUpdate('surname', e.target.value)}
                         />
@@ -35,7 +35,7 @@ export class PersonalInfo extends Component {
                     </Col>
                     <Col sm='3'>
                         <Form.Label className='font-weight-bold'>Имя</Form.Label>
-                        <Form.Control disabled={this.state.disabled} plaintext
+                        <Form.Control disabled={dis} plaintext
                                       defaultValue={this.state.firstName}
                                       onChange={(e) => this.validateAndUpdate('firstName',  e.target.value)}
                         />
@@ -44,7 +44,7 @@ export class PersonalInfo extends Component {
                     </Col>
                     <Col sm='3'>
                         <Form.Label className='font-weight-bold'>Отчество</Form.Label>
-                        <Form.Control disabled={this.state.disabled} plaintext
+                        <Form.Control disabled={dis} plaintext
                                       defaultValue={this.state.secondName}
                                       onChange={(e) => this.validateAndUpdate('secondName', e.target.value)}
                         />
@@ -53,7 +53,7 @@ export class PersonalInfo extends Component {
                     </Col>
                     <Col sm='3'>
                         <Form.Label className='font-weight-bold'>Дата рождения</Form.Label>
-                        <Form.Control disabled={this.state.disabled} plaintext
+                        <Form.Control disabled={dis} plaintext
                                       defaultValue={this.state.birthDate}
                                       onChange={(e) => this.validateAndUpdate('birthDate', e.target.value)}
                         />

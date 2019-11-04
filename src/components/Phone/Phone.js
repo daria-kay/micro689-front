@@ -25,8 +25,6 @@ export class Phone extends Component {
                               defaultValue={this.state.phone}
                               onChange={(e) => this.validateAndUpdate('phone', e.target.value)}
                 />
-                {this.validator.message('phone', this.state.phone,
-                    'numeric|size:10')}
             </Form.Row>
         );
     }
@@ -35,8 +33,6 @@ export class Phone extends Component {
         let newState = {};
         newState[name] = value;
         this.setState(newState);
-        if(this.validator.fieldValid(name)){
-            this.props.update(name, value, 'phone');
-        }
+        this.props.update(name, value, 'phone');
     }
 }
