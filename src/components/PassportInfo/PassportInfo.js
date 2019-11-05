@@ -30,7 +30,7 @@ export class PassportInfo extends Component {
                         <Form.Label className='font-weight-bold'>Номер паспорта</Form.Label>
                         <Form.Control disabled={dis} plaintext
                                       defaultValue={this.state.number}
-                                      onChange={(e) => this.update({'passportNumber': e.target.value})}
+                                      onChange={(e) => this.update('passportNumber', e.target.value)}
                         />
                     </Col>
                 </Row>

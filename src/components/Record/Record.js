@@ -16,7 +16,7 @@ export class Record extends Component{
         super(props);
         this.newValues = {};
         this.state = {
-            saveDis: true
+            saveDis: true,
         }
     }
 
@@ -60,22 +60,18 @@ export class Record extends Component{
     saveChanges = (e) => {
         for (let block in this.newValues){
             updateRecord(this.props.record.id, block, this.newValues[block])
-                .then( response => {
+                .then(response => {
                         this.setState({saveDis: true});
                         this.props.updateList();
                     }
                 )
                 .finally( () =>
                     this.newValues[block] = {}
-
                 );
         }
     };
 
     getNewValue = (name, value, block) => {
-        console.log(name);
-        console.log(value);
-        console.log(block);
         if(typeof this.newValues[block] === 'undefined'){
             this.newValues[block] = {};
         }
