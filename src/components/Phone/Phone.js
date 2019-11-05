@@ -6,7 +6,6 @@ export class Phone extends Component {
 
     constructor(props){
         super(props);
-        this.validator = new SimpleReactValidator();
         let isActive = typeof (this.props.phone) !== "undefined";
         this.state = {
             phone : isActive ? this.props.phone : '',
@@ -23,13 +22,13 @@ export class Phone extends Component {
                 <Form.Control disabled={this.state.disabled}
                               plaintext
                               defaultValue={this.state.phone}
-                              onChange={(e) => this.validateAndUpdate('phone', e.target.value)}
+                              onChange={(e) => this.update('phone', e.target.value)}
                 />
             </Form.Row>
         );
     }
 
-    validateAndUpdate = (name, value) => {
+    update = (name, value) => {
         let newState = {};
         newState[name] = value;
         this.setState(newState);

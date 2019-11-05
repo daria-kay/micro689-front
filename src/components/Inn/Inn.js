@@ -6,7 +6,6 @@ export class Inn extends Component {
 
     constructor(props){
         super(props);
-        this.validator = new SimpleReactValidator();
         let isActive = typeof (this.props.inn) !== "undefined";
         this.state = {
             inn: isActive ? this.props.inn : '',
@@ -20,20 +19,16 @@ export class Inn extends Component {
                 <Form.Label className='text-center font-weight-bold'>ИНН</Form.Label>
                 <Form.Control  disabled={this.state.disabled} plaintext
                               defaultValue={this.state.inn}
-                              onChange={(e) => this.validateAndUpdate('inn', e.target.value)}
+                              onChange={(e) => this.update('inn', e.target.value)}
                 />
-                {this.validator.message('inn', this.state.inn,
-                    'numeric|size:10')}
             </Form.Row>
         );
     }
 
-    validateAndUpdate = (name, value) => {
+    update = (name, value) => {
         let newState = {};
         newState[name] = value;
         this.setState(newState);
-        if(this.validator.fieldValid(name)){
-            this.props.update(name, value, 'inn ');
-        }
+        this.props.update(name, value, 'inn');
     }
 }

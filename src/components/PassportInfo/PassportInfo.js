@@ -8,7 +8,6 @@ export class PassportInfo extends Component {
 
     constructor(props){
         super(props);
-        this.validator = new SimpleReactValidator();
         let isActive = typeof (this.props.info) !== "undefined";
         this.state = {
             seria: isActive ? this.props.info.passportSeria : '',
@@ -25,31 +24,25 @@ export class PassportInfo extends Component {
                         <Form.Label className='font-weight-bold'>Серия паспорта</Form.Label>
                         <Form.Control disabled={dis} plaintext
                                       defaultValue={this.state.seria}
-                                      onChange={(e) => this.validateAndUpdate('passportSeria', e.target.value)}
+                                      onChange={(e) => this.update('passportSeria', e.target.value)}
                         />
-                        {this.validator.message('passportSeria', this.state.passportSeria,
-                            'numeric|size:4')}
                     </Col>
                     <Col>
                         <Form.Label className='font-weight-bold'>Номер паспорта</Form.Label>
                         <Form.Control disabled={dis} plaintext
                                       defaultValue={this.state.number}
-                                      onChange={(e) => this.validateAndUpdate({'passportNumber': e.target.value})}
+                                      onChange={(e) => this.update({'passportNumber': e.target.value})}
                         />
-                        {this.validator.message('passportNumber', this.state.passportNumber,
-                            'numeric|size:6')}
                     </Col>
                 </Row>
             </Form>
         );
     }
 
-    validateAndUpdate = (name, value) => {
+    update = (name, value) => {
         let newState = {};
         newState[name] = value;
         this.setState(newState);
-        if(this.validator.fieldValid(name)){
-            this.props.update(name, value, 'passport-info');
-        }
+        this.props.update(name, value, 'passport-info');
     }
 }
