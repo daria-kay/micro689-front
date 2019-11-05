@@ -5,6 +5,7 @@ import {UploadButton} from "../UploadButton/UploadButton";
 import RecordContainer from "../RecordContainer/RecordContainer";
 import {isAuthenticate} from "../../services/ApiService";
 import Popup from "../Popup/Popup";
+import Nav from "react-bootstrap/Nav";
 
 export class BlackList extends Component {
 
@@ -30,6 +31,9 @@ export class BlackList extends Component {
                 <Container fluid>
                     <Navbar className='shadow-sm' bg='light'>
                         <Navbar.Brand><h3>Черные списки</h3></Navbar.Brand>
+                        <Nav>
+                            <Nav.Link onClick={this.changeUser}>Сменить пользователя</Nav.Link>
+                        </Nav>
                         <Navbar.Collapse className='justify-content-end'>
                             <RecordCreator />
                             <UploadButton className='m-2' onUpload={this.showPopup}/>
@@ -47,6 +51,10 @@ export class BlackList extends Component {
     showPopup = (isSuccess, msg) => {
         this.setState({successUpload: isSuccess, message: msg, show: true});
         setTimeout(() => this.setState({show: false}), 3000);
+    };
+
+    changeUser = () => {
+        this.props.history.push('/login');
     }
 
 }

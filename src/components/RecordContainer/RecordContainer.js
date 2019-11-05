@@ -50,7 +50,6 @@ export default class RecordContainer extends Component {
                         } else {
                             this.setState({noMore: true});
                         }
-
                 }
             );
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {Base64} from 'js-base64';
 
-let authHeader = "";
+let authToken = () => localStorage.getItem('BA');
 
 export function uploadFile(file) {
     let formData = new FormData();
@@ -11,28 +11,28 @@ export function uploadFile(file) {
         formData, {
             headers: {
                 'Content-Type':'multipart/form-data',
-                "Authorization": authHeader}
+                "Authorization": authToken() }
         });
 }
 
 export function getNextRecords(count, page) {
     return axios.get("/black-list?size="+count+"&page="+page, {
         headers: {
-            "Authorization": authHeader
+            "Authorization": authToken()
         }});
 }
 
 export function updateRecord(id, block, newValues) {
     return axios.put("/black-list/"+block + "/"+id, newValues,{
         headers: {
-            "Authorization": authHeader
+            "Authorization": authToken()
         }});
 }
 
 export function deleteRecord(id) {
     return axios.delete("/black-list/"+id,{
         headers: {
-            "Authorization": authHeader
+            "Authorization": authToken()
         }});
 
 }
@@ -40,7 +40,7 @@ export function deleteRecord(id) {
 export function saveRecord(record) {
     return axios.post("black-list/add-entry-task", record, {
         headers: {
-            "Authorization": authHeader
+            "Authorization": authToken()
         }});
 }
 
@@ -58,17 +58,15 @@ export function login(login, password) {
         headers: {
             "Authorization": auth
         }
-    }).then(
-        response => {
-            authHeader = auth;
-        }
-    )
+    }).then(response => {
+        window.localStorage.setItem('BA', auth);
+    });
 }
 
 export function isAuthenticate() {
     return axios.get('/login', {
         headers: {
-            "Authorization": authHeader
+            "Authorization": authToken()
         }
     });
 }

@@ -27,10 +27,18 @@ export class UploadButton extends Component{
                this.props.onUpload(true, 'Записи добавлены')}
             )
             .catch( reason => {
-                    let msg = reason.response.data.message;
+                    let msg = this.getMessage(reason.response);
                     this.props.onUpload(false, msg === '' ? 'Произошла ошибка' : msg)
                 }
             );
     };
+
+    getMessage = (response) => {
+        if(typeof response.data.message === 'undefined' ||
+            response.data.message === '' || response.status === 500){
+            return 'Ошибка загрузки файла'
+        }
+        return response.data.message;
+    }
 }
 
