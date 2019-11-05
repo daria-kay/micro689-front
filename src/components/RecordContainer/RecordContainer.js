@@ -43,7 +43,7 @@ export default class RecordContainer extends Component {
                 response => {
                         let newRecords = [];
                         newRecords = newRecords.concat(this.state.records);
-                        newRecords = newRecords.concat(response.data);
+                        newRecords = newRecords.concat(response.data.reverse());
                         this.setState({records: newRecords});
                         if(response.data.length === this.size) {
                             this.pageCount += 1;
@@ -61,7 +61,7 @@ export default class RecordContainer extends Component {
         getNextRecords(size, 0)
             .then(
                 response => {
-                        this.setState({records: response.data})
+                        this.setState({records: response.data.reverse()})
                 }
             );
     }
