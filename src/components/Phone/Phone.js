@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {Form} from "react-bootstrap";
-import SimpleReactValidator from "simple-react-validator";
 
 export class Phone extends Component {
 

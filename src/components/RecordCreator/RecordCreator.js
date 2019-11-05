@@ -4,13 +4,11 @@ import {Alert, Button} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import {saveRecord} from "../../services/ApiService";
-import SimpleReactValidator from "simple-react-validator";
 
 export class RecordCreator extends Component{
 
     constructor(props){
         super(props);
-        this.validator = new SimpleReactValidator();
         this.initializeEmptyRecord();
         this.state = {
             show: false,
@@ -28,7 +26,7 @@ export class RecordCreator extends Component{
                 Добавить запись</Button>
             <Modal dialogClassName='modal-90w'
                    show={this.state.show}
-                   onHide={() => this.setState({show: false})}
+                   onHide={this.onHide}
                    size='xl'>
                 <Modal.Header closeButton>
                     <Modal.Title>Добавление записи</Modal.Title>
@@ -39,71 +37,56 @@ export class RecordCreator extends Component{
                     <Form.Row className='m-3'>
                         <Col>
                             <Form.Control placeholder='Фамилия'
-                                          onChange={(e) => this.record['surname'] = e.target.value}/>
-                            {this.validator.message('surname',
-                                this.record.surname, 'max:30')}
+                                          ref={ref => this.record.surname = ref}
+                            />
                         </Col>
                         <Col>
                             <Form.Control placeholder='Имя'
-                                          onChange={(e) => this.record['firstName'] = e.target.value}
+                                          ref={ref => this.record.firstName = ref}
                             />
-                            {this.validator.message('firstName',
-                                this.record.firstName, 'max:15')}
                         </Col>
                         <Col>
                             <Form.Control placeholder='Отчество'
-                                          onChange={(e) => this.record['secondName'] = e.target.value}
+                                          ref={ref => this.record.secondName = ref}
                             />
-                            {this.validator.message('secondName',
-                                this.record.secondName, 'max:30')}
                         </Col>
                         <Col>
                             <Form.Control placeholder='Дата рождения'
-                                          onChange={(e) => this.record['birthDate'] = e.target.value}
+                                          ref={ref => this.record.birthDate = ref}
                             />
-                            {this.validator.message('birthDate', this.record.birthDate,
-                                'regex:^[0-9]{4}-[0-9]{2}-[0-9]{2}$')}
                         </Col>
                     </Form.Row>
                     <Form.Row className='m-3'>
                         <Col sm={3}>
                             <Form.Control placeholder='Серия пасспорта'
-                                          onChange={(e)  => this.record['passportSeria'] = e.target.value}
+                                          ref={ref => this.record.passportSeria = ref}
                             />
-                            {this.validator.message('passportSeria', this.record.passportSeria,
-                                'numeric|size:4')}
                         </Col>
                         <Col sm={3}>
                             <Form.Control placeholder='Номер пасспорта'
-                                          onChange={(e) => this.record['passportNumber'] = e.target.value}
+                                          ref={ref => this.record.passportNumber = ref}
                             />
-                            {this.validator.message('passportNumber', this.record.passportNumber,
-                                'numeric|size:6')}
                         </Col>
                     </Form.Row>
                     <Form.Row className='m-3'>
                         <Col>
                             <Form.Control placeholder='ИНН'
-                                          onChange={(e)  => this.record['inn'] = e.target.value}
+                                          ref={ref => this.record.inn = ref}
                             />
-                            {this.validator.message('inn', this.record.inn,
-                                'numeric|size:10')}
                         </Col>
                     </Form.Row>
                     <Form.Row className='m-3'>
                         <Col>
                             <Form.Control placeholder='Телефон'
-                                          onChange={(e) => this.record['phone'] = e.target.value}
+                                          ref={ref => this.record.phone = ref}
                             />
                         </Col>
                     </Form.Row>
                     <Form.Row className='m-3'>
                         <Col>
                             <Form.Control placeholder='Почта'
-                                          onChange={(e) => this.record['email'] = e.target.value}
+                                          ref={ref => this.record.email = ref}
                             />
-                            {this.validator.message('email', this.record.email,
-                                'email')}
                         </Col>
                     </Form.Row>
                 </Modal.Body>
@@ -116,29 +99,26 @@ export class RecordCreator extends Component{
     }
 
     saveRecord = () => {
-        this.setState({error: false});
         let clearRecord = {};
         for(let field in this.record){
-            if(this.record[field] !== null)
-                clearRecord[field] = this.record[field];
+            if(this.record[field].value !== '')
+                clearRecord[field] = this.record[field].value;
         }
-        if(this.validator.allValid()){
-            saveRecord(clearRecord)
-                .then(
-                    response => {
-                        this.initializeEmptyRecord();
-                        this.setState({show: false});
-                    }
-                ).catch(
+        saveRecord(clearRecord)
+            .then(
+                response => {
+                    this.onHide();
+                }).catch(
                     reason => {
                         let msg = reason.response.data.message;
-                        this.setState({error: true, errorMessage: msg, record: {}})
+                        this.setState({error: true, errorMessage: msg})
                     }
-            )
-        } else{
-            let msg = 'Неправильно заполнены поля';
-            this.setState({error: true, errorMessage: msg})
-        }
+        );
+    };
+
+    onHide = () => {
+        this.initializeEmptyRecord();
+        this.setState({show: false, error: false, message: ''})
     };
 
     initializeEmptyRecord(){

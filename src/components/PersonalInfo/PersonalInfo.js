@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {Form} from "react-bootstrap";
-import SimpleReactValidator from "simple-react-validator";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
