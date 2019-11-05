@@ -23,7 +23,7 @@ export default class Login extends React.Component {
                 this.props.history.push("/")
             })
             .catch(reason => {
-                this.setState({fail: true, message: this.getMessage(reason.response.data.message)})
+                this.setState({fail: true, message: this.getMessage(reason.response)})
             })
     };
 
@@ -51,7 +51,10 @@ export default class Login extends React.Component {
         )
     }
 
-    getMessage = (message) => {
-        return message === '' || typeof message === 'undefined' ? 'Неправильный пароль' : message
+    getMessage = (response) => {
+        if(typeof response === 'undefined' || typeof response.data === 'undefined')
+            return 'Ошибка сети';
+        return response.data.message === '' ||
+            typeof response.data.message === 'undefined' ? 'Неправильный пароль' : response.data.message;
     }
 }

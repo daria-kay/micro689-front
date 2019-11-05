@@ -63,6 +63,13 @@ export function login(login, password) {
     });
 }
 
+export function search(record) {
+    return axios.post("black-list/find-records-task", record, {
+        headers: {
+            "Authorization": authToken()
+        }});
+}
+
 export function isAuthenticate() {
     return axios.get('/login', {
         headers: {

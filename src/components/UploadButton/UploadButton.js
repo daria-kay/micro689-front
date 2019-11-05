@@ -24,7 +24,9 @@ export class UploadButton extends Component{
     uploader = (event) => {
         uploadFile(event.target.files[0])
             .then( response =>{
-               this.props.onUpload(true, 'Записи добавлены')}
+               this.props.onUpload(true, 'Записи добавлены');
+               this.props.update();
+            }
             )
             .catch( reason => {
                     let msg = this.getMessage(reason.response);
