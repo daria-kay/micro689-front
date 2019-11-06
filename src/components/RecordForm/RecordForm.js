@@ -41,12 +41,12 @@ export class RecordForm extends Component{
                 </Form.Row>
                 <Form.Row className='m-3'>
                     <Col sm={3}>
-                        <Form.Control placeholder='Серия пасспорта'
+                        <Form.Control placeholder='Серия паспорта'
                                       ref={ref => this.record.passportSeria = ref}
                         />
                     </Col>
                     <Col sm={3}>
-                        <Form.Control placeholder='Номер пасспорта'
+                        <Form.Control placeholder='Номер паспорта'
                                       ref={ref => this.record.passportNumber = ref}
                         />
                     </Col>
