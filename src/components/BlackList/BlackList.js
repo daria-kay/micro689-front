@@ -33,8 +33,7 @@ export class BlackList extends Component {
                 this.setState({records: response.data, noMore: len < 10});
             })
             .catch(reason => {
-                if(reason.response.status === 401)
-                    this.props.history.push('/login')
+                this.props.history.push('/login')
             });
     }
 
