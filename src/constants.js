@@ -1,1 +1,1 @@
-export const BASE_URL = "http://157.245.214.222:8080/api/v1";
+export const BASE_URL = process.env.REACT_APP_BACK.toString() + "/api/v1";
